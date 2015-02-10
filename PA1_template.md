@@ -35,7 +35,7 @@ hist(data$steps,col="lightblue",xlab="Steps per day",main="Histogram of Activity
 
 ![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
 
-and the statistical summary:
+and the statistical summary showing the mean and median number of steps taken each day:
 
 ```r
 summ1 <- summary(data$steps)
@@ -74,7 +74,7 @@ means[row,]
 ## 104      835 206.1698
 ```
 
-that is, around 8:35
+that is, the maximum occurs at around 8:35, with an average of 206 steps taken during this 5-minute interval.
 
 ## <br/>Imputing missing values
 
@@ -98,6 +98,12 @@ In order to analyze the impact of missing values we will fill in those values wi
 tmp <- raw
 tmp <- merge(tmp,means,by="interval")
 tmp[is.na(tmp$steps),"steps"] <- tmp[is.na(tmp$steps),"avg"]
+```
+
+We check that now there are no missing values in the dataset:
+
+
+```r
 table(is.na(tmp$steps))
 ```
 
@@ -115,7 +121,7 @@ data <- aggregate(steps ~ date,sum,data=tmp)
 hist(data$steps,col="lightgreen",xlab="Steps per day",main="Histogram of Activity (fill-in data)")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-10-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-11-1.png) 
 
 The following is a report of the mean and median total number of steps taken per day:
 
@@ -147,7 +153,7 @@ we see that there is no appreciable impact of missing data on the mean and only 
 
 ## <br/>Are there differences in activity patterns between weekdays and weekends?
 
-To answer this question we will create a new factor variable called "wkend" in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day. Then the data will be aggregated as before by "interval"" and "wkend", computing the average number steps per group:
+To answer this question we will create a new factor variable called "wkend" in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day. Then the data will be aggregated as before by "interval" and "wkend", computing the average number of steps per group:
 
 
 ```r
@@ -166,7 +172,7 @@ library(lattice)
 with(data,xyplot(steps ~ interval | wkend, layout=c(1,2), type="l"))
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-14-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-15-1.png) 
 
 Therefore it can be shown that the activity patterns are in fact different during weekdays and weekends. At a first glance we can see the following differences:
 

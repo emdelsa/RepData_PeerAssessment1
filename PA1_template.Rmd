@@ -27,7 +27,7 @@ We can now show the histogram of the data:
 hist(data$steps,col="lightblue",xlab="Steps per day",main="Histogram of Activity")
 ```
 
-and the statistical summary:
+and the statistical summary showing the mean and median number of steps taken each day:
 ```{r}
 summ1 <- summary(data$steps)
 summ1
@@ -52,7 +52,7 @@ row <- which.max(means$avg)
 means[row,]
 ```
 
-that is, around 8:35
+that is, the maximum occurs at around 8:35, with an average of 206 steps taken during this 5-minute interval.
 
 ## <br/>Imputing missing values
 
@@ -68,6 +68,11 @@ In order to analyze the impact of missing values we will fill in those values wi
 tmp <- raw
 tmp <- merge(tmp,means,by="interval")
 tmp[is.na(tmp$steps),"steps"] <- tmp[is.na(tmp$steps),"avg"]
+```
+
+We check that now there are no missing values in the dataset:
+
+```{r}
 table(is.na(tmp$steps))
 ```
 
@@ -95,7 +100,7 @@ we see that there is no appreciable impact of missing data on the mean and only 
 
 ## <br/>Are there differences in activity patterns between weekdays and weekends?
 
-To answer this question we will create a new factor variable called "wkend" in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day. Then the data will be aggregated as before by "interval"" and "wkend", computing the average number steps per group:
+To answer this question we will create a new factor variable called "wkend" in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day. Then the data will be aggregated as before by "interval" and "wkend", computing the average number of steps per group:
 
 ```{r}
 library(lubridate)
